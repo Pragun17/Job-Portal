@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Applicants for: <span class="text-primary">{{ job.title }}</span></h2>
+            <p class="text-muted">Review candidate profiles and resumes.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{{ url_for('employer_dashboard') }}" class="btn btn-outline-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            {% if job.applications %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Candidate Name</th>
+                                <th>Email</th>
+                                <th>Resume / Skills</th>
+                                <th>Applied Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in job.applications %}
+                                <tr>
+                                    <td class="fw-bold">{{ app.applicant.name }}</td>
+                                    <td>{{ app.applicant.email }}</td>
+                                    <td>{{ app.applicant.resume or 'Not provided' }}</td>
+                                    <td>{{ app.applied_at.strftime('%Y-%m-%d') }}</td>
+                                    <td><span class="badge bg-info text-dark">{{ app.status }}</span></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted">No applications received for this job yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

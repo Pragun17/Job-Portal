@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h3 class="text-center mb-4 fw-bold">Create an Account</h3>
+                <form method="POST" id="registerForm">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control" required placeholder="John Doe">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control" required placeholder="name@example.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required placeholder="Create a strong password">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">I am a:</label>
+                        <select name="role" id="roleSelect" class="form-select" onchange="toggleFields()" required>
+                            <option value="employee">Job Seeker (Employee)</option>
+                            <option value="employer">Recruiter (Employer)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="companyField" style="display: none;">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" name="company_name" class="form-control" placeholder="Acme Inc.">
+                    </div>
+                    <div class="mb-3" id="resumeField">
+                        <label class="form-label">Resume / Skills Summary</label>
+                        <textarea name="resume" class="form-control" rows="3" placeholder="Python, Flask, 2 years experience..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">Register</button>
+                </form>
+                <div class="text-center mt-3">
+                    <p class="small text-muted">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function toggleFields() {
+    let role = document.getElementById('roleSelect').value;
+    let companyField = document.getElementById('companyField');
+    let resumeField = document.getElementById('resumeField');
+    if (role === 'employer') {
+        companyField.style.display = 'block';
+        resumeField.style.display = 'none';
+    } else {
+        companyField.style.display = 'none';
+        resumeField.style.display = 'block';
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Welcome back, {{ current_user.name }}!</h2>
+            <p class="text-muted">Here are the jobs you have applied for.</p>
+        </div>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Applied Jobs</h4>
+            {% if applications %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Company</th>
+                                <th>Location</th>
+                                <th>Applied On</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in applications %}
+                                <tr>
+                                    <td class="fw-bold">{{ app.job.title }}</td>
+                                    <td>{{ app.job.company }}</td>
+                                    <td>{{ app.job.location }}</td>
+                                    <td>{{ app.applied_at.strftime('%Y-%m-%d') }}</td>
+                                    <td>
+                                        <span class="badge bg-info text-dark">{{ app.status }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('job_detail', job_id=app.job.id) }}" class="btn btn-sm btn-outline-primary">View Job</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted mb-3">You haven't applied to any jobs yet.</p>
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">Browse Jobs</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
